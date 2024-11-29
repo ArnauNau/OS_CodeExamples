@@ -1,27 +1,23 @@
 #include <unistd.h>
 #include <signal.h>
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
-void kctrlc(int signum)
-{
+void kctrlc(int signum) {
     char buffer[100];
 
     sprintf(buffer, "I received a Ctrl+C (%d). I should abort!\n", signum);
     write(STDOUT_FILENO, buffer, strlen(buffer));
 }
 
-void ksigalrm(int signum)
-{
+void ksigalrm(int signum) {
     char buffer[100];
 
     sprintf(buffer, "I received a SIGALRM (%d)\n", signum);
     write(STDOUT_FILENO, buffer, strlen(buffer));
 }
 
-void kgeneric(int signum)
-{
+void kgeneric(int signum) {
     char buffer[100];
 
     sprintf(buffer, "I received other signal (%d)\n", signum);
@@ -31,8 +27,7 @@ void kgeneric(int signum)
 /* This function catches all the signals and, depending which one arrives,
  * calls one function or another.
  */
-void ksighandler(int signum)
-{
+void ksighandler(int signum) {
 	switch (signum)
 	{
 		case SIGINT:
@@ -49,8 +44,7 @@ void ksighandler(int signum)
 	signal(signum, ksighandler);
 }
 
-int main()
-{
+int main() {
     char buffer[100];
 	int i;
 	long result;
@@ -60,8 +54,7 @@ int main()
 	 */
 
     write(STDOUT_FILENO, "Reconfigure all signals\n", 24);
-	for (i = 1; i <= 64; i++)
-	{
+	for (i = 1; i <= 64; i++) {
 		result = (long)signal(i, ksighandler);
         // The result equals to the previous configured function of that signal (0=SIG_DFL, -1=error)
         sprintf(buffer, "Signal %i result: %ld\n", i, result);
@@ -74,8 +67,7 @@ int main()
 	/* Perform an infinite loop to see our process PID, so we'll be able to
 	 * send signals with 'kill -num $PID' or 'kill -name $PID'
 	 */
-	while (1)
-	{
+	while (1) {
         sprintf(buffer, "I am PID %d and I wait for signals\n", getpid());
         write(STDOUT_FILENO, buffer, strlen(buffer));
 

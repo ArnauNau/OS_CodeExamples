@@ -16,8 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void *threadFunc (void *arg)
-{
+static void *threadFunc (void *arg) {
     char *s = (char *) arg;
 
     printf("%s", s);
@@ -25,16 +24,13 @@ static void *threadFunc (void *arg)
     return (void *) strlen (s);
 }
 
-int main ()
-{
-
+int main () {
     pthread_t t1;
     void *res;
     int s;
 
     s = pthread_create(&t1, NULL, threadFunc, "Hello world\n");
-    if (s != 0)
-    {
+    if (s != 0) {
         printf("pthread_create\n");
         exit(EXIT_FAILURE);
     }
@@ -42,8 +38,7 @@ int main ()
     printf("Message from main()\n");
 
     s = pthread_join(t1, &res);
-    if (s != 0)
-    {
+    if (s != 0) {
         printf("pthread_join\n");
         exit(EXIT_FAILURE);
     }

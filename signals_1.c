@@ -3,23 +3,19 @@
 // For constants SIGALRM and similar:
 #include <signal.h>
 
-#include <stdio.h>
-
 // This functions is the one used as handler of the SIGINT signal
-void farewell(int signum __attribute__((unused)))
-{
+void farewell(int signum __attribute__((unused))) {
     write(STDOUT_FILENO, "------------------------\n", 25);
     write(STDOUT_FILENO, "Why do you interrupt me?\n", 25);
     write(STDOUT_FILENO, "------------------------\n", 25);
     //signal(SIGINT, farewell);
     //raise(SIGTERM);
     //signal(SIGINT, SIG_DFL);
-    
+
     write(STDOUT_FILENO, ">End of handler\n", 16);
 }
 
-int main()
-{    
+int main() {
     // Assign the signal SIGINT with the function "farewell"
     signal(SIGINT, farewell);
 

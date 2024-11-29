@@ -1,6 +1,6 @@
 /**********************************************************************\
 *                Copyright (C) XaviC, 2013.                  *
-*               Par‡metres del thread                        *
+*               Par√†metres del thread                        *
 */
 
 #include <pthread.h>
@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void *threadFunc(void *arg)
-{
+static void *threadFunc(void *arg) {
     int *number = (int *)arg;
 
     *number = *number + 5;
@@ -17,8 +16,7 @@ static void *threadFunc(void *arg)
     return (void *)arg;
 }
 
-int main ()
-{
+int main () {
     pthread_t t1;
     void *res;
     int s, x;
@@ -26,15 +24,13 @@ int main ()
     x = 7;
     printf("Value of x=%d\n", x);
     s = pthread_create(&t1, NULL, threadFunc, &x);
-    if(s != 0)
-    {
+    if (s != 0) {
         printf("pthread_create\n");
         exit(EXIT_FAILURE);
     }
     printf ("Message from main()\n");
     s = pthread_join(t1, &res);
-    if(s != 0)
-    {
+    if (s != 0) {
         printf("pthread_join\n");
         exit(EXIT_FAILURE);
     }

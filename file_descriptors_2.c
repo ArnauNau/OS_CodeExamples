@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(){
+int main() {
     char string[100];
     char buffer[200];
     int fd_file;
@@ -17,11 +17,11 @@ int main(){
     write(STDOUT_FILENO, buffer, strlen(buffer));
 
     //Create output file
-    fd_file = open ("output.txt", O_WRONLY|O_CREAT|O_TRUNC, 0600);
-    if(fd_file == -1){
+    fd_file = open("output.txt", O_WRONLY|O_CREAT|O_TRUNC, 0600);
+    if (fd_file == -1) {
         sprintf(buffer, "Unable to create file!\n");
         write(STDERR_FILENO, buffer, strlen(buffer));
-    }else{
+    } else {
         // Redirect stdout to file (it closes stdout file descriptor)
         //dup2(fd_file, STDOUT_FILENO);
 

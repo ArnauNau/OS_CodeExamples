@@ -7,9 +7,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-void * printf_xs(__attribute__((unused)) void *unused){
+void * printf_xs(__attribute__((unused)) void *unused) {
 
-    while (1){
+    while (1) {
       fputc('x', stderr);
     }
 
@@ -24,7 +24,7 @@ int main() {
 
     if (status != 0) exit(-1);
 
-    while (1){
+    while (1) {
         fputc('o', stderr);
     }
 

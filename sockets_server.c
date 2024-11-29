@@ -13,15 +13,12 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <strings.h>
 #include <unistd.h>
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
     // Check if the port was passed
-    if (argc < 2)
-    {
+    if (argc < 2) {
         fprintf (stderr, "Error: port not specified\n");
         exit (EXIT_FAILURE);
     }
@@ -29,8 +26,7 @@ int main (int argc, char *argv[])
     // Check if the port is valid
     uint16_t port;
     int aux = atoi (argv[1]);
-    if (aux < 1 || aux > 65535)
-    {
+    if (aux < 1 || aux > 65535) {
         fprintf (stderr, "Error: %s is an invalid port\n", argv[1]);
         exit (EXIT_FAILURE);
     }
@@ -39,8 +35,7 @@ int main (int argc, char *argv[])
     // Create the socket
     int sockfd;
     sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (sockfd < 0)
-    {
+    if (sockfd < 0) {
         perror ("socket TCP");
         exit (EXIT_FAILURE);
     }
@@ -55,8 +50,7 @@ int main (int argc, char *argv[])
 
     // When executing bind, we should add a cast:
     // bind waits for a struct sockaddr* and we are passing a struct sockaddr_in*
-    if (bind (sockfd, (void *) &s_addr, sizeof (s_addr)) < 0)
-    {
+    if (bind (sockfd, (void *) &s_addr, sizeof (s_addr)) < 0) {
         perror ("bind");
         exit (EXIT_FAILURE);
     }
@@ -64,15 +58,13 @@ int main (int argc, char *argv[])
     // We now open the port (5 backlog queue, typical value)
     listen (sockfd, 5);
 
-    while (1)
-    {
+    while (1) {
         struct sockaddr_in c_addr;
         socklen_t c_len = sizeof (c_addr);
 
         // When executing accept we should add the same cast used in the bind function
         int newsock = accept (sockfd, (void *) &c_addr, &c_len);
-        if (newsock < 0)
-        {
+        if (newsock < 0) {
             perror ("accept");
             exit (EXIT_FAILURE);
         }
@@ -82,16 +74,13 @@ int main (int argc, char *argv[])
         // While there is data from client, read it and display it
         ssize_t len;
         char buff[513]; // extra space for \0, if needed
-        do
-        {
+        do {
             len = read (newsock, buff, 512);
             buff[len] = 0;
             printf ("%s\n", buff);
-        }
-        while (len > 0);
+        } while (len > 0);
         close (newsock);
     }
-
     close (sockfd);
 
     return EXIT_SUCCESS;

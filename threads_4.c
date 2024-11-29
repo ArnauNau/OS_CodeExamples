@@ -1,7 +1,7 @@
 //*************************************************************
 //                Copyright (C) XaviC, 2013.
-//               Paràmetres del thread i variables globals
-//				compilar amb -lpthread
+//               Thread parameters and global variables
+//				compile with -lpthread
 
 #include <pthread.h>
 #include <stdio.h>
@@ -10,8 +10,7 @@
 
 int y;
 
-static void *threadFunc (void *arg)
-{
+static void * threadFunc (void *arg) {
     int *number = (int *)arg;
 
     *number = *number + 5;
@@ -21,18 +20,17 @@ static void *threadFunc (void *arg)
     return (void *) arg;
 }
 
-int main ()
-{
+int main () {
     pthread_t t1;
     void *res;
     int s, x;
 
-    x=7;y=5;
+    x=7; y=5;
     printf("[main] Initial value x=%d\n", x);
     printf("[main] Initial value y=%d\n", y);
 
-    s = pthread_create (&t1, NULL, threadFunc, &x);
-    if (s != 0){
+    s = pthread_create(&t1, NULL, threadFunc, &x);
+    if (s != 0) {
         printf("pthread_create\n");
         exit (EXIT_FAILURE);
     }
@@ -43,11 +41,11 @@ int main ()
     printf("[main] Middle value y=%d\n",y);
 
     s = pthread_join (t1, &res);
-    if (s != 0){
+    if (s != 0) {
         printf("pthread_join\n");
         exit (EXIT_FAILURE);
     }
-    printf ("Thread returned %lX\n", (long) res);
+    printf("Thread returned %lX\n", (long) res);
 
     printf("[main] Final value x=%d\n", x);
     printf("[main] Final value y=%d\n", y);

@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-int main(){
+int main() {
     char string[100];
     char buffer[100];
     int n;

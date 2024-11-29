@@ -41,19 +41,17 @@
  * going to be applied (number of the semaphore, operation and
  * flags).
  */
-typedef struct
-{
+typedef struct {
 	unsigned short int sem_num;
 	short int sem_op;
 	short int sem_flg;
-} sembuf;
+} _sembuf;
 
 /**
  * Struct with all the info about a semaphore. In this case,
  * only the id is specified.
  */
-typedef struct
-{
+typedef struct {
 	int shmid;
 } semaphore;
 
@@ -83,10 +81,6 @@ int SEM_constructor_with_name(semaphore * sem, key_t key) {
     return 0;
 }
 
-
-
-
-
 //////////////////////////////////////////////////////////////////////////////
 //                       V1 SEMAPHORE                                      //
 /////////////////////////////////////////////////////////////////////////////
@@ -96,8 +90,7 @@ int SEM_constructor_with_name(semaphore * sem, key_t key) {
  * @param sem The var where semaphore will be created
  * @return int The result of the operation executed
  */
-int SEM_constructor (semaphore * sem)
-{
+int SEM_constructor (semaphore * sem) {
 	assert (sem != NULL);
 	sem->shmid = semget (IPC_PRIVATE, 1, IPC_CREAT | 0600);
 	if (sem->shmid < 0) return sem->shmid;
@@ -111,8 +104,7 @@ int SEM_constructor (semaphore * sem)
  *          initialized
  * @return int The result of the operation executed
  */
-int SEM_init (const semaphore * sem, const int v)
-{
+int SEM_init (const semaphore * sem, const int v) {
 	unsigned short _v[1] = {v};
 	assert (sem != NULL);
 	return semctl (sem->shmid, 0, SETALL, _v);
@@ -123,8 +115,7 @@ int SEM_init (const semaphore * sem, const int v)
  * @param sem The semaphore to destroy
  * @return int The result of the operation executed
  */
-int SEM_destructor (const semaphore * sem)
-{
+int SEM_destructor (const semaphore * sem) {
 	assert (sem != NULL);
 	return semctl (sem->shmid, 0, IPC_RMID, NULL);
 }
@@ -137,8 +128,7 @@ int SEM_destructor (const semaphore * sem)
  * @param sem The semaphore where wait operation will be applied
  * @return int The result of the operation executed
  */
-int SEM_wait (const semaphore * sem)
-{
+int SEM_wait (const semaphore * sem) {
 	struct sembuf o = {0, -1, SEM_UNDO};
 
 	assert (sem != NULL);
@@ -155,8 +145,7 @@ int SEM_wait (const semaphore * sem)
  *            applied
  * @return int The result of the operation executed
  */
-int SEM_signal (const semaphore * sem)
-{
+int SEM_signal (const semaphore * sem) {
 	struct sembuf o = {0, 1, SEM_UNDO};
 	assert (sem != NULL);
 	return semop(sem->shmid, &o, 1);

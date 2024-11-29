@@ -20,12 +20,10 @@
 #include <strings.h>
 #include <unistd.h>
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
 
     // Check if the port and IP were passed
-    if (argc < 3)
-    {
+    if (argc < 3) {
         fprintf (stderr, "Error: missing arguments (IP and Port)\n");
         exit (EXIT_FAILURE);
     }
@@ -33,8 +31,7 @@ int main (int argc, char *argv[])
     // Check if the port is valid
     uint16_t port;
     int aux = atoi (argv[2]);
-    if (aux < 1 || aux > 65535)
-    {
+    if (aux < 1 || aux > 65535) {
         fprintf (stderr, "Error: %s is an invalid port\n", argv[1]);
         exit (EXIT_FAILURE);
     }
@@ -42,8 +39,7 @@ int main (int argc, char *argv[])
 
     // Check if the IP is valid and convert it to binary format
     struct in_addr ip_addr;
-    if (inet_aton (argv[1], &ip_addr) == 0)
-    {
+    if (inet_aton (argv[1], &ip_addr) == 0) {
         fprintf (stderr, "inet_aton (%s): %s\n", argv[1], strerror (errno));
         exit (EXIT_FAILURE);
     }
@@ -51,8 +47,7 @@ int main (int argc, char *argv[])
     // Create the socket
     int sockfd;
     sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (sockfd < 0)
-    {
+    if (sockfd < 0) {
         perror ("socket TCP");
         exit (EXIT_FAILURE);
     }
@@ -66,8 +61,7 @@ int main (int argc, char *argv[])
 
     // We can connect to the server casting the struct:
     // connect waits for a struct sockaddr* and we are passing a struct sockaddr_in*
-    if (connect (sockfd, (void *) &s_addr, sizeof (s_addr)) < 0)
-    {
+    if (connect (sockfd, (void *) &s_addr, sizeof (s_addr)) < 0) {
         perror ("connect");
         exit (EXIT_FAILURE);
     }
